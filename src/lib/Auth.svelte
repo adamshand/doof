@@ -1,19 +1,35 @@
 <script>
-  let username
-  let password
-  $: console.log({ username, password })
+  import { subSonicApi } from '../stores.js'
+
+  async function login() {
+    const url = `${$subSonicApi.baseUrl}/ping?u=${$subSonicApi.username}&p=${$subSonicApi.password}${$subSonicApi.defaultQuerySrings}`
+    if (!$subSonicApi.username || !$subSonicApi.password) {
+      $subSonicApi.status = 'provide all yo deets!'
+      return
+    }
+    const data = await fetch(url)
+    const json = await data.json()
+
+    if (json['subsonic-response'].status === 'ok') {
+      $subSonicApi.hasAuthenticated = true
+      $subSonicApi.status = 'nice, all logged in.'
+    } else {
+      $subSonicApi.status = json['subsonic-response'].error.message
+      throw new Error(json['subsonic-response'].error.message)
+    }
+  }
 </script>
 
 <form>
   <label
     >Username:
-    <input type="text" name="name" bind:value={username} />
+    <input type="text" name="name" bind:value={$subSonicApi.username} />
   </label>
   <label
     >Password:
-    <input type="text" name="name" bind:value={password} />
+    <input type="password" name="name" bind:value={$subSonicApi.password} />
   </label>
-  <button on:click={login}>Login</button>
+  <button on:click|preventDefault={login}>Login</button>
 </form>
 
 <style>

@@ -6,8 +6,11 @@
       'https://puoro.haume.nz/rest/getGenres?u=adam&p=AngelDust&c=testing&f=json',
     )
     const json = await data.json()
+    // console.log(
+    //   json['subsonic-response'].status,
+    //   json['subsonic-response'].error.message,
+    // )
     if (json['subsonic-response'].status === 'ok') {
-      // console.log(json['subsonic-response'].genres.genre)
       return json['subsonic-response'].genres.genre
     } else {
       throw new Error('ooh bad')

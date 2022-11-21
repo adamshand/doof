@@ -1,3 +1,7 @@
+# Adam
+.env
+.env*
+
 # Logs
 logs
 *.log
