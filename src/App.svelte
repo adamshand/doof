@@ -1,23 +1,20 @@
 <script>
   import { subSonicApi } from './stores.js'
   import Auth from './lib/Auth.svelte'
-  import Genres from './lib/Genres.svelte'
-  import Recent from './lib/Recent.svelte'
+  import Songs from './lib/Podcasts.svelte'
 </script>
 
 <main>
-  <img src="/doof.png" class="logo svelte" alt="Svelte Logo" />
+  <img src="/doof.png" alt="d0oF Logo" />
 
   <div id="status">
     {$subSonicApi.status}
   </div>
 
   {#if $subSonicApi.hasAuthenticated}
-    <Genres />
-    <!-- <p>genres goes here</p> -->
+    <Songs />
   {:else}
     <Auth />
-    <!-- <p>auth goes here</p> -->
   {/if}
 </main>
 
@@ -32,7 +29,7 @@
   }
   #status {
     padding: 0.5rem;
-    margin-top: 1rem;
+    margin: 1rem 0;
     width: 100%;
     background-color: darkgoldenrod;
     color: whitesmoke;

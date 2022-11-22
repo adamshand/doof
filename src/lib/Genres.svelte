@@ -1,27 +1,25 @@
 <script>
-  import { loop_guard } from 'svelte/internal'
+  import { subSonicApi } from '../stores.js'
 
   async function getGenres() {
-    const data = await fetch(
-      'https://puoro.haume.nz/rest/getGenres?u=adam&p=AngelDust&c=testing&f=json',
-    )
+    const url = `${$subSonicApi.baseUrl}/getGenres?u=${$subSonicApi.username}&p=${$subSonicApi.password}${$subSonicApi.defaultQuerySrings}`
+
+    const data = await fetch(url)
     const json = await data.json()
-    // console.log(
-    //   json['subsonic-response'].status,
-    //   json['subsonic-response'].error.message,
-    // )
+
     if (json['subsonic-response'].status === 'ok') {
+      $subSonicApi.status = json['subsonic-response'].status
       return json['subsonic-response'].genres.genre
     } else {
-      throw new Error('ooh bad')
+      $subSonicApi.status = json['subsonic-response'].error.message
+      throw new Error(json['subsonic-response'].error.message)
     }
   }
-  const genresPromise = getGenres()
 </script>
 
 <h1>Genres</h1>
 
-{#await genresPromise}
+{#await getGenres()}
   <p>Loading genres ...</p>
 {:then genres}
   {#each genres as genre}
@@ -36,6 +34,11 @@
 {/await}
 
 <style>
+  h1 {
+    color: darkgoldenrod;
+    font-weight: bold;
+  }
+
   div {
     width: 100%;
     text-align: left;

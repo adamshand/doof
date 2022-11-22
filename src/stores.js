@@ -7,4 +7,5 @@ export const subSonicApi = writable({
   password: import.meta.env.VITE_SUBSONIC_PASS ?? '',
   hasAuthenticated: false,
   status: 'Welcome to Do0f',
+  episodesDrawer: false,
 })

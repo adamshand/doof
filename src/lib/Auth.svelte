@@ -21,32 +21,26 @@
 </script>
 
 <form>
-  <label
-    >Username:
-    <input type="text" name="name" bind:value={$subSonicApi.username} />
-  </label>
-  <label
-    >Password:
-    <input type="password" name="name" bind:value={$subSonicApi.password} />
-  </label>
+  <input type="text" bind:value={$subSonicApi.username} />
+  <input type="password" bind:value={$subSonicApi.password} />
+  <input id="baseUrl" type="text" readonly bind:value={$subSonicApi.baseUrl} />
   <button on:click|preventDefault={login}>Login</button>
 </form>
 
 <style>
   form {
-    margin-top: 3rem;
     display: flex;
     flex-direction: column;
+    width: 100%;
     color: whitesmoke;
   }
-  input,
-  label {
-    padding: 0.5rem;
-  }
-  label {
-    font-weight: bold;
-  }
   input {
+    margin-bottom: 1rem;
+    padding: 0.5rem;
     border: 1px solid grey;
+  }
+  #baseUrl {
+    background-color: lightgrey;
+    color: grey;
   }
 </style>
