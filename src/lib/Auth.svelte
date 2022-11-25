@@ -14,7 +14,11 @@
       $app.hasAuthenticated = true
       $app.status = 'nice, all logged in.'
     } else {
-      $app.status = json['subsonic-response'].error.message
+      if (json['subsonic-response'].error.message.includes('invalid ')) {
+        // $app.username = ''
+        $app.password = ''
+        $app.status = 'invalid username or password'
+      }
       throw new Error(json['subsonic-response'].error.message)
     }
   }
@@ -67,8 +71,6 @@
     background-color: darkgreen;
   }
   form:invalid button {
-    background-color: grey;
-    color: red;
-    pointer-events: none;
+    display: none;
   }
 </style>
