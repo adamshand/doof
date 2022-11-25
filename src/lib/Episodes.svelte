@@ -1,22 +1,22 @@
 <script>
-  // import { Drawer } from '@brainandbones/skeleton'
   import sanitizeHtml from 'sanitize-html'
-  import { subSonicApi } from '../stores.js'
+  import { app } from '../stores.js'
 
   export let podcast
   const descriptionLength = 312
+  let lastUpdated = new Date()
 
   async function downloadEpisode(id) {
-    const episodeId = id
-    const url = `${$subSonicApi.baseUrl}/downloadPodcastEpisode?u=${$subSonicApi.username}&p=${$subSonicApi.password}${$subSonicApi.defaultQuerySrings}&id=${episodeId}`
+    // https://puoro.haume.nz/rest/downloadPodcastEpisode?u=admin&p=AngelDust&c=doof&f=json&id=pe-3667
+    const url = `${$app.baseUrl}/downloadPodcastEpisode?u=${$app.username}&p=${$app.password}${$app.defaultQuerySrings}&id=${id}`
     const data = await fetch(url)
     const json = await data.json()
 
     if (json['subsonic-response'].status === 'ok') {
-      $subSonicApi.status = json['subsonic-response'].status
-      return json['subsonic-response'].newestPodcasts.episode
+      lastUpdated = new Date()
     } else {
-      $subSonicApi.status = json['subsonic-response'].error.message
+      // TODO need to trigger a rerender so UI updates when downloaded
+      $app.status = json['subsonic-response'].error.message
       throw new Error(json['subsonic-response'].error.message)
     }
   }
@@ -27,7 +27,9 @@
     <table>
       <tr>
         <td>
-          <img alt="Logo for {podcast.title}" src={podcast.originalImageUrl} />
+          <img
+            alt="Logo for {podcast.title}"
+            src={`${$app.baseUrl}/getCoverArt?u=${$app.username}&p=${$app.password}${$app.defaultQuerySrings}&id=${podcast.coverArt}`} />
         </td>
         <td valign="top">
           <h1>{podcast.title}</h1>
@@ -35,6 +37,7 @@
         </td>
       </tr>
     </table>
+    {lastUpdated}
     <ol>
       {#each podcast.episode as episode}
         <li>
@@ -54,22 +57,21 @@
             {:else}
               {@html sanitizeHtml(
                 episode.description
-                  .substring(0, descriptionLength)
-                  .substring(0, episode.description.lastIndexOf(' ') + 1),
+                  // .substring(0, descriptionLength)
+                  .substring(0, episode.description.indexOf('. ')),
               )}
             {/if}
-            {#if episode.status === 'completed'}
+            {#if episode.path !== ''}
               <audio controls>
                 <source
-                  src={`${$subSonicApi.baseUrl}/stream?id=${episode.streamId}&u=${$subSonicApi.username}&p=${$subSonicApi.password}${$subSonicApi.defaultQuerySrings}`}
-                  type="audio/mpeg"
-                />
+                  src={`${$app.baseUrl}/stream?id=${episode.streamId}&u=${$app.username}&p=${$app.password}${$app.defaultQuerySrings}`}
+                  type="audio/mpeg" />
               </audio>
             {:else}
               <br />
-              <button on:click(downloadEpisode(${episode.streamId}))
-                >Download</button
-              >
+              <button on:click={() => downloadEpisode(episode.streamId)}>
+                Download
+              </button>
             {/if}
           </p>
         </li>

@@ -1,5 +1,5 @@
 <script>
-  import { subSonicApi } from './stores.js'
+  import { app } from './stores.js'
   import Auth from './lib/Auth.svelte'
   import Songs from './lib/Podcasts.svelte'
 </script>
@@ -8,10 +8,10 @@
   <img src="/doof.png" alt="d0oF Logo" />
 
   <div id="status">
-    {$subSonicApi.status}
+    {$app.status}
   </div>
 
-  {#if $subSonicApi.hasAuthenticated}
+  {#if $app.hasAuthenticated}
     <Songs />
   {:else}
     <Auth />
