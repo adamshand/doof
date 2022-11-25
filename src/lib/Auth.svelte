@@ -59,6 +59,7 @@
     border: 1px solid darkgreen;
   }
   #baseUrl {
+    display: none;
     background-color: lightgrey;
     color: grey;
   }
