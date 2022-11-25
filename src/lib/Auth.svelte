@@ -1,29 +1,42 @@
 <script>
-  import { subSonicApi } from '../stores.js'
+  import { app } from '../stores.js'
 
   async function login() {
-    const url = `${$subSonicApi.baseUrl}/ping?u=${$subSonicApi.username}&p=${$subSonicApi.password}${$subSonicApi.defaultQuerySrings}`
-    if (!$subSonicApi.username || !$subSonicApi.password) {
-      $subSonicApi.status = 'provide all yo deets!'
+    const url = `${$app.baseUrl}/ping?u=${$app.username}&p=${$app.password}${$app.defaultQuerySrings}`
+    if (!$app.username || !$app.password) {
+      $app.status = 'provide all yo deets!'
       return
     }
     const data = await fetch(url)
     const json = await data.json()
 
     if (json['subsonic-response'].status === 'ok') {
-      $subSonicApi.hasAuthenticated = true
-      $subSonicApi.status = 'nice, all logged in.'
+      $app.hasAuthenticated = true
+      $app.status = 'nice, all logged in.'
     } else {
-      $subSonicApi.status = json['subsonic-response'].error.message
+      $app.status = json['subsonic-response'].error.message
       throw new Error(json['subsonic-response'].error.message)
     }
   }
 </script>
 
 <form>
-  <input type="text" bind:value={$subSonicApi.username} />
-  <input type="password" bind:value={$subSonicApi.password} />
-  <input id="baseUrl" type="text" readonly bind:value={$subSonicApi.baseUrl} />
+  <fieldset>
+    <input
+      bind:value={$app.username}
+      minlength="3"
+      maxlength="12"
+      placeholder="username"
+      type="text"
+      required />
+    <input
+      bind:value={$app.password}
+      minlength="8"
+      placeholder="password"
+      required
+      type="password" />
+    <input id="baseUrl" type="url" bind:value={$app.baseUrl} required />
+  </fieldset>
   <button on:click|preventDefault={login}>Login</button>
 </form>
 
@@ -35,12 +48,26 @@
     color: whitesmoke;
   }
   input {
+    width: 100%;
     margin-bottom: 1rem;
     padding: 0.5rem;
-    border: 1px solid grey;
+  }
+  input:invalid {
+    border: 1px solid crimson;
+  }
+  input:valid {
+    border: 1px solid darkgreen;
   }
   #baseUrl {
     background-color: lightgrey;
     color: grey;
+  }
+  button {
+    background-color: darkgreen;
+  }
+  form:invalid button {
+    background-color: grey;
+    color: red;
+    pointer-events: none;
   }
 </style>
