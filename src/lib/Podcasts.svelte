@@ -1,4 +1,6 @@
 <script>
+  import { SyncLoader } from 'svelte-loading-spinners'
+
   import { app } from '../stores.js'
   import Episodes from './Episodes.svelte'
 
@@ -40,7 +42,9 @@
 
 <div id="podcasts">
   {#await getPodcasts()}
-    <button>spinner</button>
+    <div id="loading">
+      <SyncLoader size="60" color="darkgoldenrod" unit="px" duration="1s" />
+    </div>
   {:then podcasts}
     {@debug podcasts}
     {#each podcasts.sort( (a, b) => (a.episode[0].publishDate < b.episode[0].publishDate ? 1 : -1), ) as podcast}
@@ -57,6 +61,11 @@
 </div>
 
 <style>
+  #loading {
+    position: absolute;
+    right: 42%;
+    top: 30%;
+  }
   #podcasts {
     display: flex;
     flex-wrap: wrap;
