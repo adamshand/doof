@@ -2,27 +2,24 @@
   import { app } from '../stores.js'
   import Episodes from './Episodes.svelte'
 
-  let display = 'podcasts'
-
   function buildUrl(action, params) {
     return `${$app.baseUrl}/${action}?u=${$app.username}&p=${$app.password}${$app.defaultQuerySrings}`
   }
 
   async function getPodcasts() {
-    $app.status = 'loading podcasts …'
-
     const url = buildUrl('getPodcasts')
     const data = await fetch(url)
     const json = await data.json()
 
     if (json['subsonic-response'].status === 'ok') {
-      $app.status = 'listen to the sweet words…'
       return json['subsonic-response'].podcasts.channel
     } else {
       $app.status = json['subsonic-response'].error.message
       throw new Error(json['subsonic-response'].error.message)
     }
   }
+
+  $: console.log($app.podcasts)
 
   async function getNewestPodcasts() {
     const numEpisodes = 10
@@ -41,25 +38,23 @@
   }
 </script>
 
-{#await getPodcasts() then podcasts}
-  {($app.podcasts = podcasts)}
-  {#if display === 'podcasts'}
-    <div id="podcasts">
-      {#each $app.podcasts.sort( (a, b) => (a.episode[0].publishDate < b.episode[0].publishDate ? 1 : -1), ) as podcast}
-        <div class="podcastTile">
-          <img
-            alt={`Cover Art for ${podcast.title}`}
-            src={`${$app.baseUrl}/getCoverArt?u=${$app.username}&p=${$app.password}${$app.defaultQuerySrings}&id=${podcast.coverArt}`}
-            title={podcast.title} />
-        </div>
-      {/each}
-    </div>
-  {:else if display === 'episodes'}
-    <Episodes podcast={podcasts[22]} />
-  {/if}
-{:catch error}
-  {($app.status = error)}
-{/await}
+<div id="podcasts">
+  {#await getPodcasts()}
+    <button>spinner</button>
+  {:then podcasts}
+    {@debug podcasts}
+    {#each podcasts.sort( (a, b) => (a.episode[0].publishDate < b.episode[0].publishDate ? 1 : -1), ) as podcast}
+      <div class="cover">
+        <img
+          alt={`Cover Art for ${podcast.title}`}
+          src={`${$app.baseUrl}/getCoverArt?u=${$app.username}&p=${$app.password}${$app.defaultQuerySrings}&id=${podcast.coverArt}`}
+          title={podcast.title} />
+      </div>
+    {/each}
+  {:catch error}
+    {($app.status = error)}
+  {/await}
+</div>
 
 <style>
   #podcasts {
@@ -67,11 +62,22 @@
     flex-wrap: wrap;
     place-items: center;
   }
-  .podcastTile {
+  .cover {
     width: 29%;
     margin: 0.4rem;
   }
-  .podcastTile img {
+  .cover img {
     width: 100%;
+  }
+  .cover button {
+    width: 1rem;
+    height: 1rem;
+    border-radius: 0;
+    position: absolute;
+    top: 300;
+    right: 30;
+    padding: 0.3rem;
+    background-color: crimson;
+    font-size: 1rem;
   }
 </style>
