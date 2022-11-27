@@ -1,15 +1,15 @@
-import { writable } from 'svelte/store'
+import { writable } from 'svelte/store';
 
-export const app = writable({
-  baseUrl: 'https://puoro.haume.nz/rest',
-  defaultQuerySrings: '&c=doof&f=json',
-  username: import.meta.env.VITE_SUBSONIC_USER ?? '',
-  password: import.meta.env.VITE_SUBSONIC_PASS ?? '',
-  hasAuthenticated: false,
-  status: 'Welcome to d00F',
-  display: ['podcasts'],
-  podcasts: {},
-  episodes: {},
-  albums: {},
-  artists: {},
-})
+export const doof = writable({
+	urlBase: 'https://puoro.haume.nz/rest',
+	urlParams: 'c=doof&f=json',
+	username: import.meta.env.VITE_SUBSONIC_USER ?? '',
+	password: import.meta.env.VITE_SUBSONIC_PASS ?? '',
+	hasAuthenticated: false,
+	status: 'Welcome to d0oF',
+	display: ['podcasts'],
+	podcasts: {},
+	episodes: {},
+	albums: {},
+	artists: {}
+});
