@@ -26,14 +26,7 @@
 
 <form>
 	<fieldset>
-		<input
-			bind:value={$doof.username}
-			minlength="3"
-			maxlength="12"
-			placeholder="username"
-			type="text"
-			required
-		/>
+		<input bind:value={$doof.username} minlength="3" placeholder="username" type="text" required />
 		<input
 			bind:value={$doof.password}
 			minlength="8"
@@ -50,12 +43,16 @@
 	form {
 		display: flex;
 		flex-direction: column;
+		gap: 1rem;
 		width: 100%;
 		color: whitesmoke;
 	}
-	input {
+	fieldset {
+		display: flex;
+		flex-direction: column;
+		gap: 1rem;
 		width: 100%;
-		margin-bottom: 1rem;
+		border-color: darkgoldenrod;
 		padding: 0.5rem;
 	}
 	input:invalid {
