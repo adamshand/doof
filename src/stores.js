@@ -7,7 +7,7 @@ export const app = writable({
   password: import.meta.env.VITE_SUBSONIC_PASS ?? '',
   hasAuthenticated: false,
   status: 'Welcome to d00F',
-  display: 'welcome',
+  display: ['podcasts'],
   podcasts: {},
   episodes: {},
   albums: {},

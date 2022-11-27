@@ -1,5 +1,6 @@
 <script>
-  import { SyncLoader } from 'svelte-loading-spinners'
+  // import { SyncLoader } from 'svelte-loading-spinners'
+  import { onMount } from 'svelte'
 
   import { app } from '../stores.js'
   import Episodes from './Episodes.svelte'
@@ -10,6 +11,7 @@
 
   async function getPodcasts() {
     const url = buildUrl('getPodcasts')
+    console.log(url)
     const data = await fetch(url)
     const json = await data.json()
 
@@ -20,8 +22,6 @@
       throw new Error(json['subsonic-response'].error.message)
     }
   }
-
-  $: console.log($app.podcasts)
 
   async function getNewestPodcasts() {
     const numEpisodes = 10
@@ -43,15 +43,18 @@
 <div id="podcasts">
   {#await getPodcasts()}
     <div id="loading">
-      <SyncLoader size="60" color="darkgoldenrod" unit="px" duration="1s" />
+      <!-- <SyncLoader size="60" color="darkgoldenrod" unit="px" duration="1s" /> -->
+      Loading ...
     </div>
   {:then podcasts}
-    {@debug podcasts}
     {#each podcasts.sort( (a, b) => (a.episode[0].publishDate < b.episode[0].publishDate ? 1 : -1), ) as podcast}
+      {console.log(podcast)}
+
       <div class="cover">
         <img
+          on:click={() => ($app.display = ['episodes', podcast])}
           alt={`Cover Art for ${podcast.title}`}
-          src={`${$app.baseUrl}/getCoverArt?u=${$app.username}&p=${$app.password}${$app.defaultQuerySrings}&id=${podcast.coverArt}`}
+          src={`${$app.baseUrl}/getCoverArt?u=${$app.username}&p=${$app.password}${$app.defaultQuerySrings}&id=${podcast.coverArt}&size=128`}
           title={podcast.title} />
       </div>
     {/each}
@@ -78,7 +81,7 @@
   .cover img {
     width: 100%;
   }
-  .cover button {
+  /* .cover button {
     width: 1rem;
     height: 1rem;
     border-radius: 0;
@@ -88,5 +91,5 @@
     padding: 0.3rem;
     background-color: crimson;
     font-size: 1rem;
-  }
+  } */
 </style>

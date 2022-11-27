@@ -19,7 +19,11 @@
   </div>
 
   {#if $app.hasAuthenticated}
-    <Podcasts />
+    {#if $app.display[0] === 'podcasts'}
+      <Podcasts />
+    {:else if $app.display[0] === 'episodes'}
+      <Episodes />
+    {/if}
   {:else}
     <Auth />
   {/if}

@@ -9,6 +9,7 @@
   async function downloadEpisode(id) {
     // https://puoro.haume.nz/rest/downloadPodcastEpisode?u=admin&p=AngelDust&c=doof&f=json&id=pe-3667
     const url = `${$app.baseUrl}/downloadPodcastEpisode?u=${$app.username}&p=${$app.password}${$app.defaultQuerySrings}&id=${id}`
+    co
     const data = await fetch(url)
     const json = await data.json()
 
@@ -37,7 +38,6 @@
         </td>
       </tr>
     </table>
-    {lastUpdated}
     <ol>
       {#each podcast.episode as episode}
         <li>
