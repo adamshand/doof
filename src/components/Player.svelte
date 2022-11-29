@@ -11,9 +11,16 @@
 	<button style="width: 5ch;" on:click={() => goto('/')}>
 		<Icon data={faHouseChimney} />
 	</button>
+
 	<button style="width: 100%">Podcast Player Box</button>
-	<button style="width: 5ch;" on:click={() => ($doof.hasAuthenticated = false)}>
-		<!-- <button style="width: 5ch;" on:click={() => (window.location.href = '/')}> -->
+
+	<button
+		style="width: 5ch;"
+		on:click={() => {
+			$doof.hasAuthenticated = false;
+			goto('/');
+		}}
+	>
 		<Icon data={faArrowRightFromBracket} />
 	</button>
 </div>

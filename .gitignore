@@ -1,3 +1,5 @@
+src/routes/zandbox/
+
 .DS_Store
 node_modules
 /build
