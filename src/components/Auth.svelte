@@ -1,7 +1,4 @@
 <script>
-	import Icon from 'svelte-awesome';
-	import { faCheck } from '@fortawesome/free-solid-svg-icons';
-
 	import { goto } from '$app/navigation';
 
 	import { doof } from '@/stores/doof.js';

@@ -1,8 +1,8 @@
 <script lang="ts">
-	import { browser } from '$app/environment';
-	import { goto } from '$app/navigation';
+	// import { browser } from '$app/environment';
+	// import { goto } from '$app/navigation';
 
-	import { doof } from '@/stores/doof.js';
+	// import { doof } from '@/stores/doof.js';
 
 	// $: console.log('/+layout: ', $doof.hasAuthenticated);
 
