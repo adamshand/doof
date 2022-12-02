@@ -21,6 +21,8 @@
 
 <style>
 	main {
+		/* min-width: 375px;
+		max-width: 414px; */
 		margin: 0.5rem;
 		display: flex;
 		flex-direction: column;

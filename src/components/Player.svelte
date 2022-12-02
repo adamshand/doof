@@ -12,7 +12,7 @@
 		<Icon data={faPodcast} />
 	</button>
 
-	<button style="width: 100%">TODO: Player Box</button>
+	<button style="width: 100%">TODO: Search? </button>
 
 	<button
 		style="width: 5ch;"

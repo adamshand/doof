@@ -1,6 +1,13 @@
 <script lang="ts">
 	import sanitizeHtml from 'sanitize-html';
 	import { invalidateAll } from '$app/navigation';
+	import { browser } from '$app/environment';
+	import { goto } from '$app/navigation';
+
+	if (browser && !$doof.hasAuthenticated) {
+		goto('/');
+	}
+
 	import { doof } from '@/stores/doof.js';
 
 	import Player from '@/components/Player.svelte';
@@ -19,94 +26,102 @@
 		if (json['subsonic-response'].status === 'ok') {
 			invalidateAll();
 		} else {
-			// TODO need to trigger a rerender so UI updates when downloaded
 			$doof.status = json['subsonic-response'].error.message;
 			throw new Error(json['subsonic-response'].error.message);
 		}
 	}
 </script>
 
-<Player />
-<Status />
+<div id="podcast">
+	<Player />
+	<Status />
 
-<h1>{data.title}</h1>
-<p class="description">{data.description}</p>
-<hr />
+	<h1>{data.title}</h1>
+	<p class="description">{data.description}</p>
+	<hr />
 
-<ul>
-	{#each data.episode as episode}
-		<li>
-			<p>
-				<time
-					>{new Date(episode.publishDate).toLocaleString('en-nz', {
-						day: '2-digit',
-						month: 'long',
-						year: 'numeric'
-					})}
-				</time>
-			</p>
+	<ul>
+		{#each data.episode as episode}
+			<li>
+				<p class="meta">
+					<time
+						>{new Date(episode.publishDate).toLocaleString('en-nz', {
+							day: '2-digit',
+							month: 'long',
+							year: 'numeric'
+						})}
+					</time>
+					<span>
+						{Math.floor(episode.duration / 60)} minutes
+					</span>
+				</p>
 
-			<p class="title">{episode.title}</p>
+				<p class="title">{episode.title}</p>
 
-			<p class="description">
-				{#if episode.description.length < descriptionLength}
-					{@html sanitizeHtml(episode.description)}
+				<p class="description">
+					{#if episode.description.length < descriptionLength}
+						{@html sanitizeHtml(episode.description)}
+					{:else}
+						{@html sanitizeHtml(episode.description)}
+					{/if}
+				</p>
+
+				{#if episode.path !== ''}
+					<audio controls>
+						<source
+							src={`${$doof.urlBase}/stream?id=${episode.streamId}&u=${$doof.username}&p=${$doof.password}&${$doof.urlSuffix}`}
+							type="audio/mpeg"
+						/>
+					</audio>
 				{:else}
-					{@html sanitizeHtml(episode.description)}
+					<!-- TODO: Download updated podcast list, after download successful (invalidate?) -->
+					<br />
+					<button on:click={() => downloadEpisode(episode.streamId)}> Download </button>
 				{/if}
-			</p>
-
-			{#if episode.path !== ''}
-				<audio controls>
-					<source
-						src={`${$doof.urlBase}/stream?id=${episode.streamId}&u=${$doof.username}&p=${$doof.password}&${$doof.urlSuffix}`}
-						type="audio/mpeg"
-					/>
-				</audio>
-			{:else}
-				<!-- TODO: Download updated podcast list, after download successful (invalidate?) -->
-				<br />
-				<button on:click={() => downloadEpisode(episode.streamId)}> Download </button>
-			{/if}
-		</li>
-	{/each}
-</ul>
+			</li>
+		{/each}
+	</ul>
+</div>
 
 <style>
+	#podcast,
+	ul {
+		display: flex;
+		flex-direction: column;
+		gap: 1rem;
+	}
 	h1 {
 		color: darkgoldenrod;
 		font-weight: bold;
 		text-align: center;
 	}
 	.description {
-		/* padding: 0 0.5rem; */
-		color: silver;
-		text-align: justify;
-		font-weight: 200;
-		hyphens: auto;
-
 		display: -webkit-box;
 		-webkit-line-clamp: 4;
 		-webkit-box-orient: vertical;
 		overflow: hidden;
+		color: silver;
+		text-align: justify;
+		hyphens: auto;
+		font-weight: 200;
 	}
 	ul {
 		list-style-type: none;
 	}
-	li {
-		margin-top: 1rem;
-	}
 	.title {
-		margin: 0.25rem 0;
+		margin: 0.33rem 0;
 		color: darkgoldenrod;
 
 		font-size: 1.1rem;
 		font-weight: bold;
 	}
-	li time {
+	li .meta {
 		/* font-size: 1rem; */
 		font-weight: 200;
 		color: grey;
+	}
+	li .meta span {
+		float: right;
 	}
 	audio {
 		width: 100%;

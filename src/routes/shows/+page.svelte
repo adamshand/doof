@@ -1,5 +1,7 @@
 <script lang="ts">
 	// import { SyncLoader } from 'svelte-loading-spinners';
+	import { browser } from '$app/environment';
+	import { goto } from '$app/navigation';
 
 	import { doof } from '@/stores/doof.js';
 
@@ -8,7 +10,11 @@
 
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	export let data: any;
-	// $: console.log('shows/+page.js: ', data.channel);
+
+	if (browser && !$doof.hasAuthenticated) {
+		goto('/');
+	}
+	// $: console.log('shows/+page.js: ', p);
 </script>
 
 <Player />
@@ -17,7 +23,6 @@
 <div id="tiles">
 	<!-- {#each data.channel.sort( (a, b) => (a.episode[0].publishDate < b.episode[0].publishDate ? 1 : -1) ) as podcast} -->
 	{#each data.channel as podcast}
-		<!-- {console.log(podcast)} -->
 		{@const coverUrl = `${$doof.urlBase}/getCoverArt?u=${$doof.username}&p=${$doof.password}&${$doof.urlSuffix}&id=${podcast.coverArt}`}
 		<div class="cover">
 			<a href={`/shows/${podcast.id}`}>
@@ -29,20 +34,10 @@
 
 <style>
 	#tiles {
-		display: flex;
-		flex-direction: row;
-		flex-wrap: wrap;
-		justify-content: center;
-		gap: 0.7rem;
-		/* display: grid;
+		display: grid;
 		grid-template-columns: repeat(3, 1fr);
-		gap: 1rem; */
+		gap: 0.7rem;
 	}
-	/* #loading {
-		position: absolute;
-		right: 42%;
-		top: 30%;
-	} */
 	.cover {
 		width: 28vw;
 		height: 28vw;
@@ -50,15 +45,4 @@
 	.cover img {
 		object-fit: cover;
 	}
-	/* .cover button {
-    width: 1rem;
-    height: 1rem;
-    border-radius: 0;
-    position: absolute;
-    top: 300;
-    right: 30;
-    padding: 0.3rem;
-    background-color: crimson;
-    font-size: 1rem;
-  } */
 </style>
