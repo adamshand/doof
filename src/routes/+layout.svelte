@@ -4,15 +4,15 @@
 
 	import { doof } from '@/stores/doof.js';
 
-	$: console.log('/+layout: ', $doof.hasAuthenticated);
+	// $: console.log('/+layout: ', $doof.hasAuthenticated);
 
-	if ($doof.hasAuthenticated) {
-		if (browser) {
-			goto('/shows');
-		} else {
-			goto('/');
-		}
-	}
+	// if ($doof.hasAuthenticated) {
+	// 	if (browser) {
+	// 		goto('/shows');
+	// 	} else {
+	// 		goto('/');
+	// 	}
+	// }
 </script>
 
 <main>
@@ -21,6 +21,7 @@
 
 <style>
 	main {
+		margin: 0.5rem;
 		display: flex;
 		flex-direction: column;
 		gap: 1rem;

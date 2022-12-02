@@ -21,7 +21,6 @@
 			$doof.hasAuthenticated = true;
 			$doof.status = 'nice, all logged in.';
 			goto('/shows');
-			// window.location.href = '/p';
 		} else {
 			if (json['subsonic-response'].error.message.includes('invalid ')) {
 				$doof.password = '';
@@ -32,8 +31,8 @@
 	}
 </script>
 
-<form class="flexColumn">
-	<fieldset class="flexColumn">
+<form>
+	<fieldset>
 		<input
 			bind:value={$doof.username}
 			id="dynamic-label-input"
@@ -62,12 +61,13 @@
 
 <!-- <Icon data={faArrowRightFromBracket} /> -->
 <style>
-	form {
-		width: 100%;
-		color: whitesmoke;
+	form,
+	fieldset {
+		display: flex;
+		flex-direction: column;
+		gap: 1rem;
 	}
 	fieldset {
-		width: 100%;
 		border-color: darkgoldenrod;
 		padding: 0.5rem;
 	}

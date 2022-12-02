@@ -1,57 +1,31 @@
 <script lang="ts">
-	import { SyncLoader } from 'svelte-loading-spinners';
+	// import { SyncLoader } from 'svelte-loading-spinners';
 
 	import { doof } from '@/stores/doof.js';
 
 	import Player from '@/components/Player.svelte';
 	import Status from '@/components/Status.svelte';
 
-	function buildUrl(action = '', params = '') {
-		return `${$doof.urlBase}/${action}?u=${$doof.username}&p=${$doof.password}&${$doof.urlSuffix}&${params}`;
-	}
-
-	export async function getPodcasts(id = '') {
-		const url = buildUrl('getPodcasts', id);
-
-		const data = await fetch(url);
-		const json = await data.json();
-
-		if (json['subsonic-response'].status === 'ok') {
-			return json['subsonic-response'].podcasts.channel;
-		} else {
-			$doof.status = json['subsonic-response'].error.message;
-			throw new Error(json['subsonic-response'].error.message);
-		}
-	}
-	export let data: { user: { name: string; email: string } };
-	$: console.log('page.js: ', data);
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	export let data: any;
+	// $: console.log('shows/+page.js: ', data.channel);
 </script>
 
 <Player />
 <Status />
 
-{#await getPodcasts()}
-	<div id="loading">
-		<SyncLoader size="60" color="darkgoldenrod" unit="px" duration="1s" />
-	</div>
-{:then podcasts}
-	<div id="tiles">
-		{#each podcasts.sort( (a, b) => (a.episode[0].publishDate < b.episode[0].publishDate ? 1 : -1) ) as podcast}
-			<div class="cover">
-				<a href={`/shows/${podcast.id}`}>
-					<img
-						alt={`Cover Art for ${podcast.title}`}
-						src={`${$doof.urlBase}/getCoverArt?u=${$doof.username}&p=${$doof.password}&${$doof.urlSuffix}&id=${podcast.coverArt}&size=192`}
-						title={podcast.title}
-					/></a
-				>
-			</div>
-		{/each}
-	</div>
-{:catch error}
-	console.log(error)
-	{($doof.status = error)}
-{/await}
+<div id="tiles">
+	<!-- {#each data.channel.sort( (a, b) => (a.episode[0].publishDate < b.episode[0].publishDate ? 1 : -1) ) as podcast} -->
+	{#each data.channel as podcast}
+		<!-- {console.log(podcast)} -->
+		{@const coverUrl = `${$doof.urlBase}/getCoverArt?u=${$doof.username}&p=${$doof.password}&${$doof.urlSuffix}&id=${podcast.coverArt}`}
+		<div class="cover">
+			<a href={`/shows/${podcast.id}`}>
+				<img alt={`Cover Art for ${podcast.title}`} src={coverUrl} title={podcast.title} /></a
+			>
+		</div>
+	{/each}
+</div>
 
 <style>
 	#tiles {
@@ -64,11 +38,11 @@
 		grid-template-columns: repeat(3, 1fr);
 		gap: 1rem; */
 	}
-	#loading {
+	/* #loading {
 		position: absolute;
 		right: 42%;
 		top: 30%;
-	}
+	} */
 	.cover {
 		width: 28vw;
 		height: 28vw;

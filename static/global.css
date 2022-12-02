@@ -2,30 +2,18 @@
 	--background: #253529; /* dark green */
 }
 * {
+	margin: 0;
+	padding: 0;
 	box-sizing: border-box;
 	/* border: 1px solid crimson; */
 }
 body {
 	background-color: #253529;
-	color: whitesmoke;
-}
-.flexColumn {
-	display: flex;
-	flex-direction: column;
-	gap: 1rem;
-	align-items: center;
-}
-
-#flexRow {
-	display: flex;
-	flex-direction: row;
-	flex-wrap: wrap;
-	gap: 0.8rem;
+	color: silver;
 }
 img {
 	width: 100%;
 }
-
 button,
 input {
 	padding: 0.5rem;

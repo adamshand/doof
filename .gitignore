@@ -1,3 +1,4 @@
+x_*
 src/routes/zandbox/
 
 .DS_Store
@@ -10,3 +11,4 @@ node_modules
 !.env.example
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
+.fleet/
