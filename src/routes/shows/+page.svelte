@@ -5,7 +5,7 @@
 
 	import { doof } from '@/stores/doof.js';
 
-	import Player from '@/components/Player.svelte';
+	import Menu from '@/components/Menu.svelte';
 	import Status from '@/components/Status.svelte';
 
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -17,7 +17,7 @@
 	// $: console.log('shows/+page.js: ', p);
 </script>
 
-<Player />
+<Menu />
 <Status />
 
 <div id="tiles">
