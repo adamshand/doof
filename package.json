@@ -36,6 +36,7 @@
 		"@fortawesome/free-brands-svg-icons": "^6.2.1",
 		"@fortawesome/free-regular-svg-icons": "^6.2.1",
 		"@fortawesome/free-solid-svg-icons": "^6.2.1",
+		"@sveltejs/adapter-cloudflare": "^1.0.0-next.40",
 		"@types/sanitize-html": "^2.6.2",
 		"husky": "^8.0.2",
 		"sanitize-html": "^2.7.3",
