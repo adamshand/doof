@@ -35,14 +35,21 @@
 </div>
 
 <style>
+	#podcast {
+		display: flex;
+		flex-direction: column;
+		gap: 1rem;
+	}
 	#tiles {
-		display: grid;
-		grid-template-columns: repeat(3, 1fr);
+		display: flex;
+		flex-direction: row;
+		flex-wrap: wrap;
+		justify-content: center;
 		gap: 0.7rem;
 	}
 	.cover {
-		width: 28vw;
-		height: 28vw;
+		width: 31%;
+		height: 31%;
 	}
 	.cover img {
 		object-fit: cover;

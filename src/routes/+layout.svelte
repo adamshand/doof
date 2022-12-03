@@ -10,7 +10,7 @@
 <style>
 	main {
 		min-width: 340px;
-		max-width: 414px;
+		max-width: 420px;
 		margin: 0.5rem;
 		display: flex;
 		flex-direction: column;
