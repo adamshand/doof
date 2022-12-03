@@ -48,11 +48,8 @@
 	</fieldset>
 	<button on:click|preventDefault={login}>Login</button>
 	<fieldset>
-		<legend><label for="toggle"> ▸ SubSonic Server &nbsp; </label></legend>
-		<input type="checkbox" id="toggle" checked={false} hidden={true} />
-		<div id="content">
-			<input id="urlBase" type="url" bind:value={$doof.urlBase} required />
-		</div>
+		<legend>&nbsp; SubSonic API &nbsp;</legend>
+		<input id="urlBase" type="url" bind:value={$doof.urlBase} required />
 	</fieldset>
 </form>
 
@@ -71,12 +68,12 @@
 	legend {
 		color: darkgoldenrod;
 	}
-	#toggle + #content {
+	/* #toggle + #content {
 		display: none;
 	}
 	#toggle:checked + #content {
 		display: block;
-	}
+	} */
 	input {
 		background-repeat: no-repeat;
 		background-position: right 1rem center;
@@ -97,7 +94,7 @@
 		border-radius: 8px;
 		background-color: darkgoldenrod;
 		border: none;
-		color: black;
+		color: whitesmoke;
 		font-weight: bold;
 		cursor: pointer;
 	}
