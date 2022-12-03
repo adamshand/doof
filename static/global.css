@@ -19,3 +19,13 @@ input {
 	padding: 0.5rem;
 	width: 100%;
 }
+a,
+a:link,
+a:visited {
+	color: darkgoldenrod;
+	text-decoration: none;
+}
+a:hover {
+	color: goldenrod;
+	text-decoration: underline;
+}
