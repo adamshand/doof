@@ -17,19 +17,21 @@
 	// $: console.log('shows/+page.js: ', p);
 </script>
 
-<Menu />
-<Status />
+<div id="podcast">
+	<Menu />
+	<Status />
 
-<div id="tiles">
-	<!-- {#each data.channel.sort( (a, b) => (a.episode[0].publishDate < b.episode[0].publishDate ? 1 : -1) ) as podcast} -->
-	{#each data.channel as podcast}
-		{@const coverUrl = `${$doof.urlBase}/getCoverArt?u=${$doof.username}&p=${$doof.password}&${$doof.urlSuffix}&id=${podcast.coverArt}`}
-		<div class="cover">
-			<a href={`/shows/${podcast.id}`}>
-				<img alt={`Cover Art for ${podcast.title}`} src={coverUrl} title={podcast.title} /></a
-			>
-		</div>
-	{/each}
+	<div id="tiles">
+		<!-- {#each data.channel.sort( (a, b) => (a.episode[0].publishDate < b.episode[0].publishDate ? 1 : -1) ) as podcast} -->
+		{#each data.channel as podcast}
+			{@const coverUrl = `${$doof.urlBase}/getCoverArt?u=${$doof.username}&p=${$doof.password}&${$doof.urlSuffix}&id=${podcast.coverArt}`}
+			<div class="cover">
+				<a href={`/shows/${podcast.id}`}>
+					<img alt={`Cover Art for ${podcast.title}`} src={coverUrl} title={podcast.title} /></a
+				>
+			</div>
+		{/each}
+	</div>
 </div>
 
 <style>

@@ -5,6 +5,7 @@
 
 	import { doof } from '@/stores/doof.js';
 
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	export let episode: any;
 
 	const descriptionLength = 312;
@@ -73,6 +74,14 @@
 		flex-direction: column;
 		gap: 0.33rem;
 	}
+	.meta {
+		text-align: left;
+		font-weight: 200;
+		color: grey;
+	}
+	.meta span {
+		float: right;
+	}
 	.description {
 		display: -webkit-box;
 		-webkit-line-clamp: 7;
@@ -84,21 +93,15 @@
 		font-weight: 200;
 	}
 	.title {
+		text-align: left;
 		color: darkgoldenrod;
-
 		font-size: 1.1rem;
 		font-weight: bold;
-	}
-	.meta {
-		font-weight: 200;
-		color: grey;
-	}
-	.meta span {
-		float: right;
 	}
 	audio {
 		width: 100%;
 		background-color: grey;
+		border: 1px solid grey;
 	}
 	button {
 		padding: 0.3rem;

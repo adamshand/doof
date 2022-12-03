@@ -11,22 +11,23 @@
 
 <div id="bar">
 	<a href="/">
-		<button>
+		<button title="Show all Podcasts">
 			<Icon data={faPodcast} />
 		</button>
 	</a>
 
-	<input style="width: 100%" placeholder="TODO: Search?" />
+	<input bind:value={$doof.search} style="width: 100%" placeholder="Search episodes" />
 
 	{#if rss}
 		<a href={rss}>
-			<button>
+			<button title="Link to Podcast RSS">
 				<Icon data={faRss} />
 			</button>
 		</a>
 	{/if}
 
 	<button
+		title="Logout"
 		on:click={() => {
 			$doof.hasAuthenticated = false;
 			goto('/');
@@ -44,7 +45,7 @@
 		gap: 0.5rem;
 	}
 	button {
-		border: 2px solid silver;
+		border: 2px solid darkgoldenrod;
 		background-color: var(--background);
 		color: darkgoldenrod;
 		width: 4ch;

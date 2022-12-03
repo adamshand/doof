@@ -15,6 +15,16 @@
 
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	export let data: any;
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	let episodes: any;
+	$: {
+		if ($doof.search !== '') {
+			episodes = data.episode.filter(
+				(ep: { title: string; description: string }) =>
+					ep.title.includes($doof.search) || ep.description.includes($doof.search)
+			);
+		}
+	}
 </script>
 
 <div id="podcast">
@@ -27,6 +37,7 @@
 	<hr />
 
 	<ul>
+		<!-- {#each episodes as episode} -->
 		{#each data.episode as episode}
 			<Episode {episode} />
 		{/each}
@@ -47,7 +58,7 @@
 	}
 	.description {
 		display: -webkit-box;
-		-webkit-line-clamp: 4;
+		-webkit-line-clamp: 6;
 		-webkit-box-orient: vertical;
 		overflow: hidden;
 		color: silver;
