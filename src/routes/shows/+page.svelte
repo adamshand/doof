@@ -1,18 +1,18 @@
 <script lang="ts">
 	// import { SyncLoader } from 'svelte-loading-spinners';
-	import { browser } from '$app/environment';
-	import { goto } from '$app/navigation';
+	import { browser } from '$app/environment'
+	import { goto } from '$app/navigation'
 
-	import { doof } from '@/stores/doof.js';
+	import { doof } from '@/stores/doof.js'
 
-	import Menu from '@/components/Menu.svelte';
-	import Status from '@/components/Status.svelte';
+	import Menu from '@/components/Menu.svelte'
+	import Status from '@/components/Status.svelte'
 
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	export let data: any;
+	export let data: any
 
 	if (browser && !$doof.hasAuthenticated) {
-		goto('/');
+		goto('/')
 	}
 	// $: console.log('shows/+page.js: ', p);
 </script>

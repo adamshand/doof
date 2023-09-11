@@ -6,7 +6,14 @@
 	import { doof } from '@/stores/doof.js';
 
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	export let episode: any;
+	export let episode: {
+		description: string;
+		duration: number;
+		path: string;
+		publishDate: string;
+		streamId: string;
+		title: string;
+	};
 
 	const descriptionLength = 312;
 	let episodeDownloading = false;
@@ -15,15 +22,15 @@
 		const url = `${$doof.urlBase}/downloadPodcastEpisode?u=${$doof.username}&p=${$doof.password}&${$doof.urlSuffix}&id=${id}`;
 		episodeDownloading = true;
 
-		const data = await fetch(url);
-		const json = await data.json();
+		const res = await fetch(url);
+		const data = await res.json();
 
-		if (json['subsonic-response'].status === 'ok') {
+		if (data['subsonic-response'].status === 'ok') {
 			episodeDownloading = false;
-			invalidateAll();
+			await invalidateAll();
 		} else {
-			$doof.status = json['subsonic-response'].error.message;
-			throw new Error(json['subsonic-response'].error.message);
+			$doof.status = data['subsonic-response'].error.message;
+			throw new Error(data['subsonic-response'].error.message);
 		}
 	}
 </script>
@@ -53,9 +60,9 @@
 	</p>
 
 	{#if episode.path === '' && episodeDownloading}
-		<center>
+		<div style="text-align: center">
 			<BarLoader size="150" color="silver" unit="px" duration="2s" pause={false} />
-		</center>
+		</div>
 	{:else if episode.path === '' && !episodeDownloading}
 		<button on:click={() => downloadEpisode(episode.streamId)}> Download </button>
 	{:else}
